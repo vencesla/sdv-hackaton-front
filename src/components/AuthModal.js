@@ -68,7 +68,6 @@ const AuthModal = ({setShowModal, isSignUp}) => {
                 <input className="secondary-button btn-primary" type="submit"/>
                 <p>{error}</p>
             </form>
-
         </div>
     )
 }

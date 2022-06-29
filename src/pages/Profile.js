@@ -6,7 +6,8 @@ import axios from "axios";
 
 const Profile = () =>{
 
-    const [cookies, setCookie, removeCookie] = useCookies(null)
+    const [cookies] = useCookies(null)
+
     const [formData, setFormData] = useState({
         user_id: cookies.UserId,
         first_name: "",
@@ -17,7 +18,6 @@ const Profile = () =>{
         url: "",
         about: "",
         matches: []
-
     })
 
     let navigate = useNavigate()
@@ -33,7 +33,6 @@ const Profile = () =>{
         } catch (err) {
             console.log(err)
         }
-
     }
 
     const handleChange = (e) => {
@@ -270,10 +269,7 @@ const Profile = () =>{
                           <div className="photo-container">
                               {formData.url && <img src={formData.url} alt="profile pic preview"/>}
                           </div>
-
-
                       </section>
-
                 </form>
             </div>
         </>

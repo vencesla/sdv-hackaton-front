@@ -1,14 +1,11 @@
-
-import TinderCard from 'react-tinder-card'
-import {useEffect, useState} from 'react'
-import {useCookies} from 'react-cookie'
-import axios from 'axios'
-import profile from "./Profile";
+import TinderCard from 'react-tinder-card';
+import { useState } from 'react';
 
 const Dashboard = () => {
 
+    const [lastDirection, setLastDirection] = useState()
 
-    const db = [
+    const characters = [
         {
             name: 'Richard Hendricks',
             url: 'https://images.unsplash.com/photo-1656300510252-accc17174a69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDEyfHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
@@ -31,18 +28,15 @@ const Dashboard = () => {
         }
     ]
 
-    const characters = db
-    const [lastDirection, setLastDirection] = useState()
-
     const swiped = (direction, nameToDelete) => {
         console.log('removing: ' + nameToDelete)
         setLastDirection(direction)
     }
 
-
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
     }
+
     return (
        <div className="dashboard">
            <div className="swiper-container">
