@@ -1,9 +1,6 @@
-
 import TinderCard from 'react-tinder-card'
-import {useEffect, useState} from 'react'
-import {useCookies} from 'react-cookie'
-import axios from 'axios'
-import profile from "./Profile";
+import {useState} from 'react'
+import ChatContainer from '../components/ChatContainer'
 
 const Dashboard = () => {
 
@@ -45,7 +42,8 @@ const Dashboard = () => {
     }
     return (
        <div className="dashboard">
-           <div className="swiper-container">
+           <ChatContainer/>
+           <div className="swipe-container">
                <div className="card-container">
                    {characters.map((character) =>
                        <TinderCard
