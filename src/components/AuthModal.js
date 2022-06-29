@@ -1,15 +1,12 @@
 import {useState} from "react";
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
+import API from '../API';
 
-const AuthModal = ({setShowModal, isSignUp }) =>{
+const AuthModal = ({setShowModal, isSignUp}) => {
 
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
     const [error, setError] = useState(null)
-    const [ cookies, setCookie, removeCookie] = useCookies(null)
 
     const handleClick = () => {
         setShowModal(false)
@@ -22,6 +19,10 @@ const AuthModal = ({setShowModal, isSignUp }) =>{
                 setError('Passwords need to match!')
                 return
             }
+
+            API.get('/signup?email=' + email + '&password=' + password).then(response => {
+                console.log("connexion : ", response)
+            })
 
             window.location.reload()
 
@@ -43,7 +44,7 @@ const AuthModal = ({setShowModal, isSignUp }) =>{
                     id="email"
                     name="email"
                     className="form-control"
-                    placeholder="email"
+                    placeholder="Email"
                     required={true}
                     onChange={(e) => setEmail(e.target.value)}
                 />
