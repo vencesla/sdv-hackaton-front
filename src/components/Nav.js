@@ -1,4 +1,4 @@
-import whiteLogo from '../images/logo2.png'
+import logoWhite from '../images/logo-white.png'
 
 
 const Nav = ({ minimal, authToken, setShowModal, showModal ,setIsSignup }) => {
@@ -15,7 +15,7 @@ const Nav = ({ minimal, authToken, setShowModal, showModal ,setIsSignup }) => {
     return (
         <nav minimal={false} authtoken={authToken} setShowModal={setShowModal} showmodal={showModal}>
             <div className="logo-container">
-                <img className="logo" src={whiteLogo} alt="logo"/>
+                <img className="logo" src={logoWhite} alt="logo"/>
             </div>
             {!authToken && !minimal && <button
                 className="nav-button"
