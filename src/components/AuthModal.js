@@ -42,6 +42,7 @@ const AuthModal = ({setShowModal, isSignUp }) =>{
                     type="email"
                     id="email"
                     name="email"
+                    className="form-control"
                     placeholder="email"
                     required={true}
                     onChange={(e) => setEmail(e.target.value)}
@@ -50,6 +51,7 @@ const AuthModal = ({setShowModal, isSignUp }) =>{
                     type="password"
                     id="password"
                     name="password"
+                    className="form-control"
                     placeholder="Mot de passe"
                     required={true}
                     onChange={(e) => setPassword(e.target.value)}
@@ -62,7 +64,7 @@ const AuthModal = ({setShowModal, isSignUp }) =>{
                     required={true}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />}
-                <input className="secondary-button" type="submit"/>
+                <input className="secondary-button btn-primary" type="submit"/>
                 <p>{error}</p>
             </form>
 

@@ -1,4 +1,4 @@
-import whiteLogo from '../images/tinder_logo_white.png'
+import whiteLogo from '../images/logo2.png'
 
 
 const Nav = ({ minimal, authToken, setShowModal }) => {
