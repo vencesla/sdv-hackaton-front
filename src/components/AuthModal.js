@@ -1,5 +1,5 @@
 import {useState} from "react";
-import API from '../API';
+import API from '../utils/API';
 
 const AuthModal = ({setShowModal, isSignUp}) => {
 
