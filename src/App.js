@@ -6,6 +6,7 @@ import './App.scss';
 import TokenManager from './utils/TokenManager';
 import API from './utils/API';
 import { useEffect, useState } from 'react';
+import MatchList from "./components/MatchList";
 
 const App = () => {
 
@@ -27,7 +28,8 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={TokenManager.isConnected() ? <Navigate to="/dashboard" /> : <Home />}/>
-                <Route path="/dashboard" element={!TokenManager.isConnected() ? <Navigate to="/"/> : <Dashboard user={user} refreshUser={setUser}/>}/>
+                <Route path="/matchlist" element={!TokenManager.isConnected() ? <Navigate to="/"/> : <MatchList user={user} refreshUser={refreshUser}/>}/>
+                <Route path="/dashboard" element={!TokenManager.isConnected() ? <Navigate to="/"/> : <Dashboard user={user} refreshUser={refreshUser}/>}/>
                 <Route path="/profile" element={!TokenManager.isConnected() ? <Navigate to="/"/> : <Profile user={user} refreshUser={refreshUser}/>}/>
             </Routes>
         </BrowserRouter>

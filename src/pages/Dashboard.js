@@ -2,6 +2,7 @@ import MatchList from '../components/MatchList';
 import API from '../utils/API';
 import { useEffect, useState } from 'react';
 import { CheckCircleFill, XCircleFill} from 'react-bootstrap-icons';
+import NavTab from "../components/NavTab";
 
 const Dashboard = ({user, refreshUser}) => {
 
@@ -43,6 +44,7 @@ const Dashboard = ({user, refreshUser}) => {
                        <CheckCircleFill className="text-success" onClick={() => handleVote(true)}/>
                    </div>
                </div>
+               <NavTab/>
            </main>
        </div>
     )
