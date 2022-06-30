@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import MatchList from '../components/MatchList';
 import API from '../utils/API';
 import { useEffect } from 'react';
 
+import {ArrowLeft, CheckCircleFill} from 'react-bootstrap-icons';
+import NavTab from "../components/NavTab";
+
 const Profile = ({ user, refreshUser }) => {
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFormData({
@@ -27,8 +32,6 @@ const Profile = ({ user, refreshUser }) => {
         gender: user?.gender ?? '',
         country: user?.country ?? ''
     });
-
-    let navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,9 +65,13 @@ const Profile = ({ user, refreshUser }) => {
         <div className="dashboard">
             <MatchList user={user}/>
 
+            <div className="profile-core">
             <div className="profile-page">
                 <div className="phone-screen">
-                    <h2 className="pb-3">{!user.firstName || !user.lastName ? 'Completer' : 'Modifier'} votre profil</h2>
+                    <div className="profile-top">
+                        <Link className="profile-back" to="/dashboard"><ArrowLeft/></Link>
+                        <h2 className="pb-3">Modifier votre profil</h2>
+                    </div>
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-floating mb-3">
@@ -163,6 +170,8 @@ const Profile = ({ user, refreshUser }) => {
                         </button>
                     </form>
                 </div>
+            </div>
+            <NavTab/>
             </div>
         </div>
     );

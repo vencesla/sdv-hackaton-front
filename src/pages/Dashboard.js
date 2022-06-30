@@ -3,6 +3,7 @@ import API from '../utils/API';
 import { useEffect, useState } from 'react';
 import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 import { Spinner } from 'react-bootstrap';
+import NavTab from "../components/NavTab";
 
 const Dashboard = ({ user, refreshUser }) => {
 
@@ -10,7 +11,6 @@ const Dashboard = ({ user, refreshUser }) => {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        setLoading(true);
         API.get('user/random').then(result => {
             setCurrentUser(result.data);
             setLoading(false);
@@ -52,6 +52,7 @@ const Dashboard = ({ user, refreshUser }) => {
                         <CheckCircleFill className="text-success" onClick={() => handleVote(true)}/>
                     </div>
                 </div>
+                <NavTab/>
             </main>
         </div>
     );

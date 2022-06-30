@@ -2,6 +2,7 @@ import MatchHeader from "./MatchHeader";
 import img1 from '../images/Martin 1.png';
 import API from '../utils/API';
 import { useEffect, useState } from 'react';
+import NavTab from "./NavTab";
 
 const MatchList = ({user, refreshUser}) => {
 
@@ -27,6 +28,7 @@ const MatchList = ({user, refreshUser}) => {
                 )}
                 {!loading && allMatch.length === 0 && <div>Vous n'avez pas de match</div>}
             </div>
+            <NavTab/>
         </div>
     )
 }

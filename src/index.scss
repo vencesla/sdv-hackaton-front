@@ -11,6 +11,10 @@ html, body {
   overflow: hidden;
 }
 
+html, body, #root {
+  height: 100%;
+}
+
 img {
   width: 100%;
   height: auto;
@@ -26,6 +30,7 @@ section {
 
 main {
   flex: auto;
+  flex-direction: column;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +44,7 @@ main {
   width: 100%;
   max-width: 360px;
   height: 100%;
-  max-height: 680px;
+  //max-height: 680px;
   background-color: white;
   border-radius: 12px;
   user-select: none;
@@ -119,6 +124,23 @@ nav {
   }
 }
 
+.NavTab {
+  width: 100%;
+  padding: 1rem;
+  @media screen and (min-width: 900px){
+    display: none;
+  }
+  display: flex;
+  .navtab-link {
+    flex: auto;
+    svg {
+      width: 3rem;
+      height: 3rem;
+      color: black;
+    }
+  }
+}
+
 /*-------- Home page --------*/
 .overlay {
   width: 100%;
@@ -180,7 +202,21 @@ nav {
   overflow: auto;
 }
 
+.profile-top {
+  display: flex;
+  .profile-back {
+    width: 2rem;
+    height: 2rem;
+    color: black;
+    margin-right: 5vw;
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+}
+
 /*-------- Dashboard  --------*/
+
 .dashboard {
   width: 100%;
   height: 100vh;
@@ -209,6 +245,22 @@ nav {
 }
 
 /*-------- Chat Container --------*/
+
+.chat-container-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .dashboard & {
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+  &:not(.dashboard &) {
+    width: 100%;
+  }
+}
 .chat-container {
   z-index: 1;
   background-color: white;
@@ -216,6 +268,10 @@ nav {
   display: flex;
   flex-direction: column;
   width: 325px;
+
+  &:not(.dashboard &) {
+    width: 100%;
+  }
 
   .chat-container-header {
     background: linear-gradient(45deg, rgb(254, 48, 114), rgb(255, 89, 64));
@@ -272,6 +328,13 @@ nav {
       }
     }
   }
+}
+
+.profile-core {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 /*-------- Chat Input --------*/
