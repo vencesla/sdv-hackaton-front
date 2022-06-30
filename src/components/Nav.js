@@ -1,19 +1,14 @@
 import logoWhite from '../images/logo-white.png'
 
-
-const Nav = ({ minimal, authToken, setShowModal, showModal ,setIsSignup }) => {
-
-
-
+const Nav = ({ minimal, authToken, setShowModal, showModal, setIsSignUp }) => {
 
     const handleClick = () => {
-        console.log('clicked')
         setShowModal(true)
-        setIsSignup(false)
+        setIsSignUp(false)
     }
 
     return (
-        <nav minimal={false} authtoken={authToken} setShowModal={setShowModal} showmodal={showModal}>
+        <nav>
             <div className="logo-container">
                 <img className="logo" src={logoWhite} alt="logo"/>
             </div>

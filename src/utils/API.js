@@ -16,7 +16,7 @@ instance.interceptors.request.use(function (config) {
 });
 
 instance.interceptors.response.use(function (response) {
-    TokenManager.setToken(response.headers.common['Authorization'])
+    TokenManager.setToken(response.headers.authorization)
     return response;
 }, function (error) {
     return Promise.reject(error);

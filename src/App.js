@@ -1,16 +1,17 @@
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.scss';
+import TokenManager from './utils/TokenManager';
 
 const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/dashboard" element={<Dashboard/>}/>
-                <Route path="/profile" element={<Profile/>}/>
+                <Route path="/" element={TokenManager.isConnected() ? <Navigate to="/dashboard" /> : <Home />}/>
+                <Route path="/dashboard" element={!TokenManager.isConnected() ? <Navigate to="/" /> : <Dashboard />}/>
+                <Route path="/profile" element={!TokenManager.isConnected() ? <Navigate to="/" /> : <Profile />}/>
             </Routes>
         </BrowserRouter>
     )

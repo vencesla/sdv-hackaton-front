@@ -9,17 +9,17 @@ const Home = () => {
     const authToken = false
 
     const handleClick = () => {
-        console.log("clicked")
         setShowModal(true)
         setIsSignUp(true)
     }
+
     return (
         <div className="overlay">
             <Nav minimal={false}
                 authToken={authToken}
                 setShowModal={setShowModal}
                 showModal={showModal}
-                setIsSignup={setIsSignUp}/>
+                 setIsSignUp={setIsSignUp}/>
             <div className="mb-3">
                 <h1 className="primary-title">Balayer vers la droite</h1>
                 <button className="primary-button" onClick={handleClick}>

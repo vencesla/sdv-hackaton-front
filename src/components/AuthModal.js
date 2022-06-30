@@ -1,31 +1,36 @@
 import {useState} from "react";
-import {useCookies} from 'react-cookie'
+import API from '../utils/API';
+import { Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const AuthModal = ({ setShowModal, setISignUp, isSignUp }) =>{
+const AuthModal = ({ setShowModal, isSignUp }) =>{
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
     const [error, setError] = useState(null)
-    const [ cookies, setCookie, removeCookie] = useCookies(null)
 
-
-    const handleClick = () => {
-        console.log('clicked')
+    const handleClose = () => {
         setShowModal(false)
-        setISignUp(true)
     }
 
     const handleSubmit = (e) =>{
         e.preventDefault()
         try {
-            if (isSignUp && (password !== confirmPassword)) {
-                setError('les deux mots de passe doivent être  identiques!')
-                return
+            if(isSignUp) {
+                if (password !== confirmPassword) {
+                    setError('Les mots de passe ne sont pas identiques')
+                    return
+                }
+                API.get('http://localhost:8080/signup?email=' + email + '&password=' + password).then(result => {
+                    console.log('SIGNUP', result);
+                });
+            } else {
+                API.get('http://localhost:8080/login?email=' + email + '&password=' + password).then(result => {
+                    navigate("/profile");
+                });
             }
-
-            window.location.reload()
-
         } catch (error) {
             console.log(error)
         }
@@ -35,10 +40,11 @@ const AuthModal = ({ setShowModal, setISignUp, isSignUp }) =>{
     return (
         <div className="auth-modal">
             <div className="auth-modal-content">
-                <div className="close-icon" onClick={handleClick}>X</div>
+                <div className="close-icon" onClick={handleClose}>X</div>
                 <h2>{isSignUp ? 'Créer un compte' : 'Connexion'}</h2>
                 <p>Découvrez comment nous traitons vos données dans notre politique de confidentialité.</p>
                 <form onSubmit={handleSubmit}>
+                    {error && error !== '' && <Alert variant="danger">{error}</Alert>}
                     <input
                         type="email"
                         id="email"
@@ -67,7 +73,6 @@ const AuthModal = ({ setShowModal, setISignUp, isSignUp }) =>{
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />}
                     <input className="primary-button w-100" type="submit" value={isSignUp ? 'VALIDER' : 'SE CONNECTER'}/>
-                    {error && error !== '' && <p>{error}</p>}
                 </form>
             </div>
         </div>
