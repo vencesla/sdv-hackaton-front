@@ -15,8 +15,8 @@ instance.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
-instance.interceptors.response.use(function (response) {
-    TokenManager.setToken(response.headers.authorization)
+instance.interceptors.response.use(async function (response) {
+    await TokenManager.setToken(response.headers.authorization)
     return response;
 }, function (error) {
     return Promise.reject(error);

@@ -23,12 +23,16 @@ const AuthModal = ({ setShowModal, isSignUp }) =>{
                     setError('Les mots de passe ne sont pas identiques')
                     return
                 }
-                API.get('http://localhost:8080/signup?email=' + email + '&password=' + password).then(result => {
-                    console.log('SIGNUP', result);
+                API.get('http://localhost:8080/signup?email=' + email + '&password=' + password).then(() => {
+                    setError("Votre compte à bien été créer")
+                }).catch(() => {
+                    setError("Impossible de créer ce compte")
                 });
             } else {
-                API.get('http://localhost:8080/login?email=' + email + '&password=' + password).then(result => {
-                    navigate("/profile");
+                API.get('http://localhost:8080/login?email=' + email + '&password=' + password).then(() => {
+                    window.location.reload()
+                }).catch(() => {
+                    setError("Email ou mots de passe incorrect")
                 });
             }
         } catch (error) {
