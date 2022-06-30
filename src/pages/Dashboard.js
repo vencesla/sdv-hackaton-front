@@ -1,64 +1,49 @@
-import TinderCard from 'react-tinder-card';
-import { useState } from 'react';
 import MatchList from '../components/MatchList';
+import API from '../utils/API';
+import { useEffect, useState } from 'react';
+import { CheckCircleFill, XCircleFill} from 'react-bootstrap-icons';
 
 const Dashboard = ({user, refreshUser}) => {
 
-    const [lastDirection, setLastDirection] = useState()
+    const [currentUser, setCurrentUser] = useState(null)
 
-    const characters = [
-        {
-            name: 'Richard Hendricks',
-            url: 'https://images.unsplash.com/photo-1656300510252-accc17174a69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDEyfHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-            name: 'Erlich Bachman',
-            url: 'https://images.unsplash.com/photo-1656313826909-1f89d1702a81?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDR8dG93SlpGc2twR2d8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-            name: 'Monica Hall',
-            url: 'https://images.unsplash.com/photo-1654881076699-da94d14d9754?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDM1fHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-            name: 'Jared Dunn',
-            url: 'https://images.unsplash.com/photo-1654881076699-da94d14d9754?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDM1fHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        },
-        {
-            name: 'Dinesh Chugtai',
-            url: 'https://images.unsplash.com/photo-1654881076699-da94d14d9754?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDM1fHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-        }
-    ]
+    useEffect(() => {
+        API.get("user/random").then(result => {
+            setCurrentUser(result.data);
+        });
+    }, [])
 
-    const swiped = (direction, nameToDelete) => {
-        console.log('removing: ' + nameToDelete)
-        setLastDirection(direction)
-    }
-
-    const outOfFrame = (name) => {
-        console.log(name + ' left the screen!')
+    const handleVote = (liked) => {
+        if(!currentUser?.id) return;
+        API.post('/vote/' + currentUser?.id + '/' + liked).then(() => {
+            API.get("user/random").then(result => {
+                setCurrentUser(result.data);
+            });
+        })
     }
 
     return (
        <div className="dashboard">
-           <MatchList user={user} refreshUser={refreshUser}/>
-           <div className="swipe-container">
-               <div className="card-container">
-                   {characters.map((character) =>
-                       <TinderCard
-                           className='swipe'
-                           key={character.name}
-                           onSwipe={(dir) => swiped(dir, character.name)}
-                           onCardLeftScreen={() => outOfFrame(character.name)}>
-                           <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
-                               <h3>{character.name}</h3>
-                           </div>
-                       </TinderCard>
-                   )}
-                   <div className="swipe-info">
-                       { lastDirection ? <p> Tu as balayé à {lastDirection}</p> : <p/>}
+           <section>
+               <MatchList user={user} refreshUser={refreshUser}/>
+           </section>
+           <main>
+               <div className="phone-container">
+                   <div className="body">
+                       <img className="main-image" src="https://f.hellowork.com/obs-static-images/seo/ObsJob/chef-dentreprise.jpg"/>
+                       <div className="description">
+                           <strong>Description</strong>
+                           {currentUser?.description && <p>{!currentUser?.description ? 'Pas de description' : currentUser?.description}</p>}
+                           <strong>Information</strong>
+                           <p>{!currentUser?.phoneNumber ? '' : currentUser?.phoneNumber}</p>
+                       </div>
+                   </div>
+                   <div className="header">
+                       <XCircleFill className="text-danger" onClick={() => handleVote(false)}/>
+                       <CheckCircleFill className="text-success" onClick={() => handleVote(true)}/>
                    </div>
                </div>
-           </div>
+           </main>
        </div>
     )
 }

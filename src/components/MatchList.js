@@ -1,60 +1,28 @@
 import MatchHeader from "./MatchHeader";
 import img1 from '../images/Martin 1.png';
-import img2 from '../images/Martin 2.jpg';
+import API from '../utils/API';
+import { useEffect, useState } from 'react';
 
-const MatchList = ({user, refreshUser}) =>{
+const MatchList = ({user, refreshUser}) => {
+
+    const [allMatch, setAllMatch] = useState([])
+
+    useEffect(() => {
+        API.get("/match").then(result => {
+            setAllMatch(result.data);
+        });
+    }, [])
+
     return (
         <div className="chat-container">
             <MatchHeader user={user} refreshUser={refreshUser}/>
             <div className="chat-container-body">
-                <div className="profile">
-                    <img src={img1}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
-                <div className="profile">
-                    <img src={img2}/>
-                </div>
+                {allMatch.map(match =>
+                    <div key={match} className="profile">
+                        <img src={img1}/>
+                        <p>{match.firstName}</p>
+                    </div>
+                )}
             </div>
         </div>
     )
