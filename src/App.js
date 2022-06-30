@@ -9,13 +9,17 @@ import { useEffect, useState } from 'react';
 
 const App = () => {
 
+    const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
     const refreshUser = () => {
         if(TokenManager.isConnected()) {
             API.get('user/owner').then(result => {
                 setUser(result.data);
+                setLoading(false);
             });
+        } else {
+            setLoading(false);
         }
     }
 
@@ -24,13 +28,23 @@ const App = () => {
     }, [])
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={TokenManager.isConnected() ? <Navigate to="/dashboard" /> : <Home />}/>
-                <Route path="/dashboard" element={!TokenManager.isConnected() ? <Navigate to="/"/> : <Dashboard user={user} refreshUser={setUser}/>}/>
-                <Route path="/profile" element={!TokenManager.isConnected() ? <Navigate to="/"/> : <Profile user={user} refreshUser={refreshUser}/>}/>
-            </Routes>
-        </BrowserRouter>
+        <>
+            {loading && <div>LOADING...</div>}
+            {!loading && <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={TokenManager.isConnected() ? <Navigate to="/dashboard"/> : <Home/>}/>
+                    <Route path="/dashboard" element={
+                        !TokenManager.isConnected()
+                            ? <Navigate to="/"/>
+                            : !user?.firstName
+                                ? <Navigate to="/profile"/>
+                                : <Dashboard user={user} refreshUser={setUser}/>
+                    }/>
+                    <Route path="/profile" element={!TokenManager.isConnected() ? <Navigate to="/"/> :
+                        <Profile user={user} refreshUser={refreshUser}/>}/>
+                </Routes>
+            </BrowserRouter>}
+        </>
     )
 }
 

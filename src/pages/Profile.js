@@ -64,7 +64,7 @@ const Profile = ({ user, refreshUser }) => {
 
             <div className="profile-page">
                 <div className="phone-screen">
-                    <h2 className="pb-3">Modifier votre profil</h2>
+                    <h2 className="pb-3">{!user.firstName || !user.lastName ? 'Completer' : 'Modifier'} votre profil</h2>
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-floating mb-3">
@@ -74,6 +74,7 @@ const Profile = ({ user, refreshUser }) => {
                                 className="form-control"
                                 value={formData.firstName}
                                 onChange={handleChange}
+                                required
                             />
                             <label htmlFor="firstName">Prénom</label>
                         </div>
@@ -85,6 +86,7 @@ const Profile = ({ user, refreshUser }) => {
                                 className="form-control"
                                 value={formData.lastName}
                                 onChange={handleChange}
+                                required
                             />
                             <label htmlFor="lastName">Nom</label>
                         </div>
@@ -109,6 +111,9 @@ const Profile = ({ user, refreshUser }) => {
                                 className="form-control"
                                 value={formData.age}
                                 onChange={handleChange}
+                                min="1"
+                                max="150"
+                                required
                             />
                             <label htmlFor="age">Age</label>
                         </div>
@@ -129,7 +134,7 @@ const Profile = ({ user, refreshUser }) => {
                         </div>
 
                         <div className="btn-group mb-4" role="group">
-                            <input type="radio" className="btn-check" name="btnradio" id="btnradio1"
+                            <input type="radio" className="btn-check" name="btnradio" id="btnradio1" required
                                    checked={formData.gender === 'employee'} value="employee" onClick={() => formData.gender = 'employee'} onChange={handleChange}/>
                             <label className="btn btn-outline-primary" htmlFor="btnradio1">Une entreprise</label>
 
@@ -145,6 +150,7 @@ const Profile = ({ user, refreshUser }) => {
                                 className="form-control"
                                 value={formData.country}
                                 onChange={handleChange}
+                                required
                             />
                             <label htmlFor="country">Pays</label>
                         </div>

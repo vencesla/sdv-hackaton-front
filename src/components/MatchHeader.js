@@ -21,7 +21,7 @@ const MatchHeader = ({user}) => {
         <div className="chat-container-header">
             <div className="profile-info" onClick={handleProfile}>
                 <img className="profile-image" src={userImage} alt="user-image"/>
-                <span className="profile-name">{!user ? '' : user.firstName + ' ' + user.lastName}</span>
+                {user?.firstName && user?.lastName && <span className="profile-name">{user.firstName + ' ' + user.lastName}</span>}
             </div>
             <Power color="white" size="2em" type="button" onClick={handleDisconnect}/>
         </div>

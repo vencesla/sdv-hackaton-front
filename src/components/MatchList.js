@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react';
 
 const MatchList = ({user, refreshUser}) => {
 
-    const [allMatch, setAllMatch] = useState([])
+    const [loading, setLoading] = useState(true);
+    const [allMatch, setAllMatch] = useState([]);
 
     useEffect(() => {
         API.get("/match").then(result => {
             setAllMatch(result.data);
+            setLoading(false);
         });
     }, [])
 
@@ -17,12 +19,13 @@ const MatchList = ({user, refreshUser}) => {
         <div className="chat-container">
             <MatchHeader user={user} refreshUser={refreshUser}/>
             <div className="chat-container-body">
-                {allMatch.map(match =>
+                {!loading && allMatch.map(match =>
                     <div key={match} className="profile">
                         <img src={img1}/>
                         <p>{match.firstName}</p>
                     </div>
                 )}
+                {!loading && allMatch.length === 0 && <div>Vous n'avez pas de match</div>}
             </div>
         </div>
     )
