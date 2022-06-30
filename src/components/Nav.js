@@ -1,6 +1,6 @@
 import logoWhite from '../images/logo-white.png'
 
-const Nav = ({ minimal, authToken, setShowModal, showModal, setIsSignUp }) => {
+const Nav = ({ setShowModal, setIsSignUp }) => {
 
     const handleClick = () => {
         setShowModal(true)
@@ -12,11 +12,9 @@ const Nav = ({ minimal, authToken, setShowModal, showModal, setIsSignUp }) => {
             <div className="logo-container">
                 <img className="logo" src={logoWhite} alt="logo"/>
             </div>
-            {!authToken && !minimal && <button
-                className="nav-button"
-                onClick={handleClick}
-                disabled={showModal}
-            >Connexion</button>}
+            <button className="nav-button" onClick={handleClick}>
+                Connexion
+            </button>
         </nav>
     )
 }

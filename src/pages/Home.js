@@ -6,8 +6,6 @@ const Home = () => {
     const [showModal, setShowModal] = useState(false)
     const [isSignUp, setIsSignUp] = useState(true)
 
-    const authToken = false
-
     const handleClick = () => {
         setShowModal(true)
         setIsSignUp(true)
@@ -15,20 +13,14 @@ const Home = () => {
 
     return (
         <div className="overlay">
-            <Nav minimal={false}
-                authToken={authToken}
-                setShowModal={setShowModal}
-                showModal={showModal}
-                 setIsSignUp={setIsSignUp}/>
+            <Nav setShowModal={setShowModal} setIsSignUp={setIsSignUp}/>
             <div className="mb-3">
                 <h1 className="primary-title">Balayer vers la droite</h1>
                 <button className="primary-button" onClick={handleClick}>
-                    {authToken ? 'Se déconnecter': 'Créer un compte'}
+                    Créer un compte
                 </button>
 
-                {showModal && (
-                    <AuthModal setShowModal={setShowModal} isSignUp={isSignUp}/>
-                )}
+                {showModal && <AuthModal setShowModal={setShowModal} isSignUp={isSignUp}/>}
             </div>
         </div>
     )

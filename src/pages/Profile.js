@@ -1,279 +1,165 @@
-import Nav from "../components/Nav";
-import {useState} from "react";
-import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
-import axios from "axios";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import MatchList from '../components/MatchList';
+import API from '../utils/API';
+import { useEffect } from 'react';
 
-const Profile = () =>{
+const Profile = ({ user, refreshUser }) => {
 
-    const [cookies] = useCookies(null)
+    useEffect(() => {
+        setFormData({
+            firstName: user?.firstName ?? '',
+            lastName: user?.lastName ?? '',
+            age: user?.age ?? 0,
+            description: user?.description ?? '',
+            phoneNumber: user?.phoneNumber ?? '',
+            gender: user?.gender ?? '',
+            country: user?.country ?? ''
+        });
+    }, [user]);
 
     const [formData, setFormData] = useState({
-        user_id: cookies.UserId,
-        first_name: "",
-        dob_born: "",
-        show_gender: false,
-        gender_identity: "man",
-        gender_interest: "woman",
-        url: "",
-        about: "",
-        matches: []
-    })
+        firstName: user?.firstName ?? '',
+        lastName: user?.lastName ?? '',
+        age: user?.age ?? 0,
+        description: user?.description ?? '',
+        phoneNumber: user?.phoneNumber ?? '',
+        gender: user?.gender ?? '',
+        country: user?.country ?? ''
+    });
 
-    let navigate = useNavigate()
+    let navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        console.log('submitted')
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const response = await axios.put('http://localhost:8000/user', {formData})
-            console.log(response)
-            const success = response.status === 200
-            if (success) navigate('/dashboard')
+            const response = await API.put('/user', {
+                ...formData,
+                id: user.id,
+                email: user.email
+            });
+            const success = response.status === 200;
+            if (success) {
+                refreshUser();
+                navigate('/dashboard');
+            }
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };
 
     const handleChange = (e) => {
-        console.log('e', e)
-        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value
-        const name = e.target.name
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        const name = e.target.name;
 
-        setFormData((prevState) => ({
-            ...prevState,
+        setFormData(() => ({
+            ...formData,
             [name]: value
-        }))
-    }
+        }));
+    };
+
     return (
-        <>
-            <Nav
-                minimal={true}
-                setShowModal={() => {
-                }}
-                showModal={false}
-            />
+        <div className="dashboard">
+            <MatchList user={user}/>
 
-            <div className="onboarding">
-                <h2>Créer votre profile</h2>
+            <div className="profile-page">
+                <div className="phone-screen">
+                    <h2 className="pb-3">Modifier votre profil</h2>
 
-                <form onSubmit={handleSubmit}>
-                      <section>
-                          <div className="form-group required">
-                              <label className="control-label" htmlFor="first_name">Nom</label>
-                          </div>
-                          <input
-                              id="last_name"
-                              type='text'
-                              name="last_name"
-                              placeholder="Votre nom"
-                              required={true}
-                              value={formData.first_name}
-                              onChange={handleChange}
-                          />
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-floating mb-3">
+                            <input
+                                id="firstName"
+                                name="firstName"
+                                className="form-control"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="firstName">Prénom</label>
+                        </div>
 
-                          <div className="row">
-                              <div className="col-lg-6">
-                                  <div className="form-group required">
-                                      <label className="control-label">date de Naissance</label>
-                                  </div>
-                                  <div className="multiple-input-container">
-                                      <input
-                                          id="dob_day"
-                                          type="date"
-                                          name="dob_born"
-                                          required={true}
-                                          value={formData.dob_day}
-                                          onChange={handleChange}
-                                      />
-                                  </div>
-                              </div>
-                              <div className="col-lg-6">
-                                  <label>Age</label>
-                                  <div className="multiple-input-container">
-                                      <input
-                                          id="age"
-                                          type="text"
-                                          name="age"
-                                          className="form-control"
-                                          min="10" max="100"
-                                          required={true}
-                                          value={formData.age}
-                                          onChange={handleChange}
-                                      />
-                                  </div>
-                              </div>
+                        <div className="form-floating mb-3">
+                            <input
+                                id="lastName"
+                                name="lastName"
+                                className="form-control"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="lastName">Nom</label>
+                        </div>
 
-                          </div>
-                          <div className="row">
-                              <div className="col-lg-6">
-                                  <div className="form-group required">
-                                      <label className="control-label">Code Postal</label>
-                                  </div>
-                                  <div className="multiple-input-container">
-                                      <input
-                                          id="cp"
-                                          type="text"
-                                          name="email"
-                                          className="form-control"
-                                          required={true}
-                                          value={formData.cp}
-                                          onChange={handleChange}
-                                      />
-                                  </div>
+                        <div className="form-floating mb-3">
+                        <textarea
+                            id="description"
+                            name="description"
+                            className="form-control"
+                            value={formData.description}
+                            onChange={handleChange}
+                            rows="3"
+                        />
+                            <label htmlFor="description">Description</label>
+                        </div>
 
-                              </div>
-                              <div className="col-lg-6">
-                                  <div className="form-group required">
-                                      <label className="control-label">Ville</label>
-                                  </div>
-                                  <div className="multiple-input-container">
-                                      <input
-                                          id="email"
-                                          type="text"
-                                          name="ville"
-                                          className="form-control"
-                                          required={true}
-                                          value={formData.ville}
-                                          onChange={handleChange}
-                                      />
-                                  </div>
+                        <div className="form-floating mb-3">
+                            <input
+                                type="number"
+                                id="age"
+                                name="age"
+                                className="form-control"
+                                value={formData.age}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="age">Age</label>
+                        </div>
 
-                              </div>
-                          </div>
+                        <div className="form-floating mb-3">
+                            <input
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                className="form-control"
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="phoneNumber">Téléphone</label>
+                        </div>
 
-                          <div className="form-group required">
-                              <label className="control-label">Fonction</label>
-                          </div>
-                          <div className="multiple-input-container">
-                              <input
-                                  id="man-gender-identity"
-                                  type="radio"
-                                  name="gender_identity"
-                                  className="form-control"
-                                  value="employeur"
-                                  onChange={handleChange}
-                                  checked={formData.gender_identity === "employeur"}
-                              />
-                              <label htmlFor="man-gender-identity">Employeur</label>
-                              <input
-                                  id="woman-gender-identity"
-                                  type="radio"
-                                  name="gender_identity"
-                                  className="form-control"
-                                  value="employe"
-                                  onChange={handleChange}
-                                  checked={formData.gender_identity === "employe"}
-                              />
-                              <label htmlFor="woman-gender-identity">Employé</label>
-                          </div>
+                        <div className="mb-3">
+                            <label>Je recherche</label>
+                        </div>
 
-                          <div className="form-group required">
-                              <label className="control-label" htmlFor="show-gender">Montrer mon profile</label>
-                          </div>
-                          <input
-                              id="show-gender"
-                              type="checkbox"
-                              name="show_gender"
-                              onChange={handleChange}
-                              checked={formData.show_gender}
-                          />
+                        <div className="btn-group mb-4" role="group">
+                            <input type="radio" className="btn-check" name="btnradio" id="btnradio1"
+                                   checked={formData.gender === 'employee'} value="employee" onClick={() => formData.gender = 'employee'} onChange={handleChange}/>
+                            <label className="btn btn-outline-primary" htmlFor="btnradio1">Une entreprise</label>
 
-                          <div className="form-group required">
-                              <label className="control-label">Recherche</label>
-                          </div>
+                            <input type="radio" className="btn-check" name="btnradio" id="btnradio2"
+                                   checked={formData.gender === 'employer'} value="employer" onClick={() => formData.gender = 'employer'} onChange={handleChange}/>
+                            <label className="btn btn-outline-primary" htmlFor="btnradio2">Un talent</label>
+                        </div>
 
-                          <div className="multiple-input-container">
-                              <input
-                                  id="man-gender-interest"
-                                  type="radio"
-                                  className="form-control"
-                                  name="gender_interest"
-                                  value="stage"
-                                  onChange={handleChange}
-                                  checked={formData.gender_interest === "stage"}
-                              />
-                              <label htmlFor="man-gender-interest">Stage</label>
-                              <input
-                                  id="woman-gender-interest"
-                                  type="radio"
-                                  name="gender_interest"
-                                  value="cdd"
-                                  className="form-control"
-                                  onChange={handleChange}
-                                  checked={formData.gender_interest === "cdd"}
-                              />
-                              <label htmlFor="woman-gender-interest">CDD</label>
-                              <input
-                                  id="everyone-gender-interest"
-                                  type="radio"
-                                  name="gender_interest"
-                                  className="form-control"
-                                  value="cdi"
-                                  onChange={handleChange}
-                                  checked={formData.gender_interest === "everyone"}
-                              />
-                              <label htmlFor="everyone-gender-interest">CDI</label>
+                        <div className="form-floating mb-3">
+                            <input
+                                id="country"
+                                name="country"
+                                className="form-control"
+                                value={formData.country}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="country">Pays</label>
+                        </div>
 
-                          </div>
-
-
-                      </section>
-
-                      <section>
-                          <div className="form-group required">
-                              <label className="control-label" htmlFor="url">Prenom</label>
-                          </div>
-                          <input
-                              type="text"
-                              name="first_name"
-                              id="url"
-                              placeholder="Votre prenom"
-                              required={true}
-                          />
-
-                          <div className="form-group required">
-                              <label className="control-label" htmlFor="url">Photo de profile</label>
-                          </div>
-                          <input
-                              type="file"
-                              name="photo"
-                              id="photo"
-                              onChange={handleChange}
-                              required={true}
-                          />
-                          <div className="form-group required">
-                              <label className="control-label" htmlFor="url">Complément adresse</label>
-                          </div>
-                          <input
-                              type="text"
-                              name="complement"
-                              id="complement"
-                              onChange={handleChange}
-                              required={true}
-                          />
-
-                          <label htmlFor="about">Description</label>
-                          <textarea
-                              id="about"
-                              type="text"
-                              name="about"
-                              rows="3"
-                              className="form-control"
-                              required={true}
-                              placeholder="Décrivez vous en quelques mots..."
-                              value={formData.about}
-                              onChange={handleChange}
-                          />
-                          <input type="submit"/>
-                          <div className="photo-container">
-                              {formData.url && <img src={formData.url} alt="profile pic preview"/>}
-                          </div>
-                      </section>
-                </form>
+                        <button
+                            type="submit"
+                            className="btn btn-success w-100"
+                        >
+                            Valider
+                        </button>
+                    </form>
+                </div>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default Profile
+export default Profile;
