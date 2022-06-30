@@ -20,7 +20,7 @@ const Home = () => {
                 setShowModal={setShowModal}
                 showModal={showModal}
                 setIsSignup={setIsSignUp}/>
-            <div className="home">
+            <div className="mb-3">
                 <h1 className="primary-title">Balayer vers la droite</h1>
                 <button className="primary-button" onClick={handleClick}>
                     {authToken ? 'Se déconnecter': 'Créer un compte'}
