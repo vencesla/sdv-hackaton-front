@@ -1,6 +1,4 @@
-import logoWhite from '../images/logo-white.png'
-
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import {PersonFill, PersonHearts, BinocularsFill} from 'react-bootstrap-icons';
 

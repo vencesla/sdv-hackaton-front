@@ -19,6 +19,7 @@ const MatchList = ({user, refreshUser}) => {
     return (
         <div className="chat-container">
             <MatchHeader user={user} refreshUser={refreshUser}/>
+            {!loading && allMatch.length === 0 && <div className="pt-3">Vous n'avez pas de match</div>}
             <div className="chat-container-body">
                 {!loading && allMatch.map(match =>
                     <div key={match} className="profile">
@@ -26,7 +27,6 @@ const MatchList = ({user, refreshUser}) => {
                         <p>{match.firstName}</p>
                     </div>
                 )}
-                {!loading && allMatch.length === 0 && <div>Vous n'avez pas de match</div>}
             </div>
             <NavTab/>
         </div>

@@ -95,7 +95,6 @@ const Profile = ({ user, refreshUser }) => {
                                     className="form-control"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                    required
                                 />
                                 <label htmlFor="lastName">Nom</label>
                             </div>
@@ -120,9 +119,6 @@ const Profile = ({ user, refreshUser }) => {
                                     className="form-control"
                                     value={formData.age}
                                     onChange={handleChange}
-                                    min="1"
-                                    max="150"
-                                    required
                                 />
                                 <label htmlFor="age">Age</label>
                             </div>
@@ -134,6 +130,7 @@ const Profile = ({ user, refreshUser }) => {
                                     className="form-control"
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
+                                    required
                                 />
                                 <label htmlFor="phoneNumber">Téléphone</label>
                             </div>
