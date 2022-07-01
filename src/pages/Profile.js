@@ -6,10 +6,11 @@ import { useEffect } from 'react';
 
 import {ArrowLeft, CheckCircleFill} from 'react-bootstrap-icons';
 import NavTab from "../components/NavTab";
+import { useHistory } from "react-router-dom";
 
 const Profile = ({ user, refreshUser }) => {
 
-    const navigate = useNavigate();
+    let history = useHistory();
 
     useEffect(() => {
         setFormData({
@@ -44,7 +45,8 @@ const Profile = ({ user, refreshUser }) => {
             const success = response.status === 200;
             if (success) {
                 refreshUser();
-                navigate('/dashboard');
+                //navigate('/dashboard');
+                history.push('/dashboard');
             }
         } catch (err) {
             console.log(err);

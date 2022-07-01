@@ -1,11 +1,9 @@
 import {useState} from "react";
 import API from '../utils/API';
 import { Alert } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
 const AuthModal = ({ setShowModal, isSignUp }) =>{
 
-    const navigate = useNavigate();
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)

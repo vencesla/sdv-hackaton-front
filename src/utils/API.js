@@ -3,7 +3,7 @@ import TokenManager from './TokenManager';
 
 const instance = axios.create();
 
-instance.defaults.baseURL = 'http://localhost:8080';
+instance.defaults.baseURL = 'http://192.168.1.45:8080';
 
 instance.interceptors.request.use(function (config) {
     const token = TokenManager.getToken();
